@@ -27,13 +27,16 @@ export const animateWithGsap = (
   animationProps: AnimationProps,
   scrollProps?: ScrollProps,
 ) => {
+  const isMobile = window.innerWidth < 768;
+
   gsap.to(target, {
     ...animationProps,
     scrollTrigger: {
       trigger: target,
-      toggleActions: "restart reverse restart reverse",
-      start: "top bottom",
-      end: "bottom top",
+      toggleActions: "play none none reverse",
+      start: isMobile ? "top 80%" : "top bottom",
+      end: isMobile ? "bottom 20%" : "bottom top",
+      scrub: isMobile ? 0.5 : 1,
       ...scrollProps,
     },
   });
