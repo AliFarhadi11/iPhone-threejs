@@ -27,23 +27,12 @@ export const animateWithGsap = (
   animationProps: AnimationProps,
   scrollProps?: ScrollProps,
 ) => {
-  const isMobile = window.innerWidth < 768;
-
-  // Ensure opacity is preserved if it exists in animationProps
-  const finalAnimationProps = {
-    ...animationProps,
-    opacity: animationProps.opacity ?? 1, // Default to 1 if not specified
-  };
-
   gsap.to(target, {
-    ...finalAnimationProps,
+    ...animationProps,
     scrollTrigger: {
       trigger: target,
-      toggleActions: "play none none none", // Changed to prevent any reverse animations
-      start: isMobile ? "top center" : "top 80%", // More reliable trigger points
-      end: isMobile ? "bottom center" : "bottom 20%",
-      scrub: isMobile ? 0.3 : 0.5, // Smoother scrub on both devices
-      markers: false, // Disable markers
+      toggleActions: "restart reverse restart reverse",
+      start: "top 85%",
       ...scrollProps,
     },
   });
@@ -57,20 +46,17 @@ export const animateWithGsapTimeline = (
   secondTarget: string,
   animationProps: AnimationProps,
 ) => {
-  const isMobile = window.innerWidth < 768;
-
   timeline.to(rotationRef.current.rotation, {
     y: rotationState,
-    duration: isMobile ? 0.8 : 1,
-    ease: "power2.out",
+    duration: 1,
+    ease: "power2.inOut",
   });
 
   timeline.to(
     firstTarget,
     {
       ...animationProps,
-      duration: isMobile ? 0.8 : 1,
-      ease: "power2.out",
+      ease: "power2.inOut",
     },
     "<",
   );
@@ -79,8 +65,7 @@ export const animateWithGsapTimeline = (
     secondTarget,
     {
       ...animationProps,
-      duration: isMobile ? 0.8 : 1,
-      ease: "power2.out",
+      ease: "power2.inOut",
     },
     "<",
   );
