@@ -9,6 +9,9 @@
   --color-zinc: #101010;
 }
 
+html {
+  overflow-x: hidden;
+}
 body {
   color: white;
   width: 100dvw;
